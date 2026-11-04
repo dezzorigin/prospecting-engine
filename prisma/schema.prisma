@@ -1,0 +1,111 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Stage {
+  baru
+  demo_siap
+  follow_up
+  negosiasi
+  deal
+  ditolak
+  hilang_kontak
+  ditunda
+}
+
+enum ActivityType {
+  catatan
+  wa_terkirim
+  demo_dikirim
+  demo_dilihat
+  panggilan
+  perubahan_stage
+}
+
+model Prospect {
+  id           String    @id @default(cuid())
+  nama         String
+  kategori     String?
+  kota         String?
+  alamat       String?
+  waNumber     String?   @map("wa_number")
+  rating       Float?
+  reviewCount  Int?      @map("review_count")
+  mapsUrl      String?   @map("maps_url")
+  website      String? // null = belum punya website (target prospek)
+  source       String    @default("manual") // manual | discover
+  stage        Stage     @default(baru)
+  nextAction   String?   @map("next_action")
+  dueAt        DateTime? @map("due_at")
+  dealValue    Int?      @map("deal_value") // dalam ribu rupiah
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  activities Activity[]
+  demos      Demo[]
+
+  @@index([stage, dueAt])
+  @@index([createdAt])
+  @@map("prospects")
+}
+
+model Activity {
+  id         String       @id @default(cuid())
+  prospectId String       @map("prospect_id")
+  type       ActivityType
+  content    String
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  prospect Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+
+  @@index([prospectId, createdAt])
+  @@map("activities")
+}
+
+model Template {
+  id        String   @id @default(cuid())
+  nama      String
+  kategori  String
+  config    Json // { palette, heroCopy, sections, ... }
+  createdAt DateTime @default(now()) @map("created_at")
+
+  demos Demo[]
+
+  @@map("templates")
+}
+
+model Demo {
+  id         String    @id @default(cuid())
+  prospectId String    @map("prospect_id")
+  templateId String    @map("template_id")
+  slug       String    @unique
+  data       Json
+  createdAt  DateTime  @default(now()) @map("created_at")
+  sentAt     DateTime? @map("sent_at")
+  viewedAt   DateTime? @map("viewed_at")
+
+  prospect Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  template Template @relation(fields: [templateId], references: [id])
+
+  @@index([prospectId])
+  @@map("demos")
+}
+
+model DiscoverJob {
+  id        String   @id @default(cuid())
+  keyword   String
+  kota      String
+  status    String   @default("pending") // pending | running | done | error
+  error     String?
+  results   Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  doneAt    DateTime? @map("done_at")
+
+  @@map("discover_jobs")
+}
