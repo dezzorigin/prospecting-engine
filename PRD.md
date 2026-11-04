@@ -5,16 +5,15 @@
 | Field | Nilai |
 |---|---|
 | Nama Proyek | Prospecting Engine |
-| Repo | dezzorigin/prospecting-engine |
-| Tech Stack | Next.js 14 |
-| Status | Dalam pengembangan |
+| Tech Stack | Next.js |
+| Status | Hampir selesai (beta) |
 | Penanggung Jawab | Nabil Aulia Dika |
 | Versi Dokumen | 1.0 |
 | Tanggal | 2026 |
 
 ## 2. Latar Belakang
 
-Proyek ini dikembangkan sebagai bagian dari portofolio dan kebutuhan operasional. Dokumen ini mengikuti standar PRD nasional untuk memastikan ruang lingkup, fitur, dan kriteria keberhasilan terdefinisi dengan jelas.
+Proyek ini dikembangkan sebagai bagian dari portofolio dan kebutuhan operasional. Dokumen ini mengikuti standar PRD nasional agar ruang lingkup, fitur, dan kriteria keberhasilan terdefinisi dengan jelas.
 
 ## 3. Masalah yang Diselesaikan
 
@@ -44,20 +43,19 @@ Struktur proyek (file/direktori utama):
 - .claude/
 - .cursor/
 - .devin/
-- .env
-- .env.example
-- .gitignore
+- .wrangler/
+- prisma/
+- public/
+- src/
+- LICENSE
+- PRD.md
 - README.md
 - eslint.config.mjs
 - next-env.d.ts
 - next.config.ts
-- package-lock.json
 - package.json
 - postcss.config.mjs
 - prisma.config.ts
-- prisma/
-- public/
-- src/
 - tsconfig.json
 
 ## 7. Persyaratan Non-Fungsional
@@ -69,7 +67,7 @@ Struktur proyek (file/direktori utama):
 
 ## 8. Arsitektur & Tech Stack
 
-Next.js 14
+Next.js
 
 ## 9. Milestone / Roadmap
 
