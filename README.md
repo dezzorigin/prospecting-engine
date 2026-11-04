@@ -1,53 +1,67 @@
 # Prospecting Engine
 
-## Live Demo
-
-🌐 https://8a6dceae.prospecting-engine-133.pages.dev
-
-Prospecting Engine — project by Nabil Aulia Dika (dezzorigin).
+Prospecting Engine — project oleh Nabil Aulia Dika (dezzorigin).
 
 ## Status Proyek
 
-**Dalam pengembangan** _(README ada)_
+**Hampir selesai (beta)** _(README ada, build artifact ada)_
 
-## Tech Stack
+## 🌐 Live Demo
 
-Next.js 14
+**https://8a6dceae.prospecting-engine-133.pages.dev**
 
-## Struktur Proyek
+## 📋 Tech Stack
+
+Next.js
+
+## 🏗️ Arsitektur
+
+```mermaid
+flowchart LR
+  U[Pengguna] --> B[Browser]
+  B --> F[Frontend (React/Next.js)]
+  F --> A[API Routes]
+  A --> D[(Database)]
+```
+
+## 📁 Struktur Proyek
 
 ```
 .agents/
 .claude/
 .cursor/
 .devin/
-.env
-.env.example
-.gitignore
+.wrangler/
+prisma/
+public/
+src/
+LICENSE
+PRD.md
 README.md
 eslint.config.mjs
 next-env.d.ts
 next.config.ts
-package-lock.json
 package.json
 postcss.config.mjs
 prisma.config.ts
-prisma/
-public/
-src/
 tsconfig.json
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ```bash
+# Install dependencies
 npm install
+
+# Jalankan development server
 npm run dev
 ```
 
-## Lisensi
+> Untuk project HTML/Python/Go, lihat instruksi di atas atau file konfigurasi.
 
-MIT — lihat file [LICENSE](./LICENSE).
+## 📄 Lisensi
+
+MIT — lihat [LICENSE](./LICENSE).
 
 ---
-_Dibuat dan dikelola oleh Nabil Aulia Dika. Kontribusi dan issue welcome._
+_Dikembangkan oleh **dezzorigin** (Nabil Aulia Dika)._
