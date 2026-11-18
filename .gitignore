@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# kecuali contohnya — .env.example BOLEH dan HARUS ke-commit
+!.env.example
 
 # vercel
 .vercel
@@ -47,3 +49,9 @@ __pycache__/
 .venv/
 dist/
 build/
+# .env.example tetap ter-commit (pengecualian terakhir menang atas .env.*)
+!.env.example
+
+# playwright
+test-results/
+playwright-report/
