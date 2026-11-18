@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prospecting Engine — Diagram Arsitektur</title>
+<style>
+  :root { --ink:#1c1917; --muted:#57534e; --line:#e7e0d4; --card:#fff; --bg:#faf7f2; --accent:#0f766e; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 -apple-system,"Segoe UI",Inter,Roboto,sans-serif; }
+  header { max-width:960px; margin:0 auto; padding:56px 24px 8px; }
+  header p.kicker { text-transform:uppercase; letter-spacing:.14em; font-size:12px; color:var(--muted); margin:0 0 8px; }
+  header h1 { font-size:40px; line-height:1.05; letter-spacing:-.03em; margin:0 0 12px; }
+  header p.lede { color:var(--muted); max-width:640px; margin:0; }
+  main { max-width:960px; margin:0 auto; padding:24px; }
+  figure { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:28px 24px; margin:0 0 24px; }
+  figcaption { margin-top:16px; }
+  figcaption h2 { font-size:20px; letter-spacing:-.02em; margin:0 0 4px; }
+  figcaption p { color:var(--muted); margin:0; font-size:14px; }
+  .num { display:inline-block; width:28px; height:28px; line-height:28px; text-align:center; border-radius:50%; background:var(--accent); color:#fff; font-size:13px; font-weight:700; margin-right:8px; vertical-align:2px; }
+  footer { max-width:960px; margin:0 auto; padding:0 24px 56px; color:var(--muted); font-size:13px; }
+  svg { width:100%; height:auto; display:block; }
+  .box { fill:#fff; stroke:#1c1917; stroke-width:1.5; }
+  .box-fill { fill:#1c1917; stroke:#1c1917; stroke-width:1.5; }
+  .box-soft { fill:#faf7f2; stroke:#e7e0d4; stroke-width:1.5; }
+  .box-accent { fill:#0f766e; stroke:#0f766e; stroke-width:1.5; }
+  .lbl { font:600 14px -apple-system,"Segoe UI",Inter,sans-serif; fill:#1c1917; }
+  .lbl-w { font:600 14px -apple-system,"Segoe UI",Inter,sans-serif; fill:#fff; }
+  .sub { font:400 12px -apple-system,"Segoe UI",Inter,sans-serif; fill:#57534e; }
+  .sub-w { font:400 12px -apple-system,"Segoe UI",Inter,sans-serif; fill:#d6d3d1; }
+  .arr { stroke:#1c1917; stroke-width:1.5; fill:none; marker-end:url(#ah); }
+  .arr-dash { stroke:#a8a29e; stroke-width:1.5; fill:none; stroke-dasharray:5 4; marker-end:url(#ah); }
+  .tag { font:700 11px -apple-system,"Segoe UI",Inter,sans-serif; fill:#57534e; letter-spacing:.08em; }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">Prospecting Engine · Diagram</p>
+  <h1>Arsitektur, data &amp; alur prospeksi</h1>
+  <p class="lede">Tiga diagram editorial — bukan Mermaid. Arsitektur runtime (apa yang jalan di Pages),
+  model data (apa yang disimpan — Prisma dan localStorage), dan alur demo (apa yang terjadi saat
+  penjual membuat demo dan pemilik usaha membukanya). Dibuat mengikuti gaya diagram-design: HTML + SVG murni.</p>
+</header>
+<main>
+
+<figure>
+<svg viewBox="0 0 880 430" role="img" aria-label="Diagram arsitektur runtime Prospecting Engine">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1c1917"/></marker></defs>
+  <text class="tag" x="20" y="24">RUNTIME — CLOUDFLARE PAGES (STATIC EXPORT + WORKER)</text>
+  <rect class="box" x="20" y="44" width="180" height="76" rx="12"/>
+  <text class="lbl" x="110" y="76" text-anchor="middle">Browser</text>
+  <text class="sub" x="110" y="96" text-anchor="middle">penjual &amp; pemilik usaha</text>
+  <rect class="box-fill" x="280" y="44" width="220" height="76" rx="12"/>
+  <text class="lbl-w" x="390" y="76" text-anchor="middle">Cloudflare Pages</text>
+  <text class="sub-w" x="390" y="96" text-anchor="middle">prospectingengine.pages.dev</text>
+  <rect class="box-soft" x="580" y="44" width="280" height="76" rx="12"/>
+  <text class="lbl" x="720" y="70" text-anchor="middle">Static export (out/)</text>
+  <text class="sub" x="720" y="90" text-anchor="middle">19 halaman · _next/static · favicon</text>
+  <rect class="box-accent" x="580" y="150" width="280" height="76" rx="12"/>
+  <text class="lbl-w" x="720" y="176" text-anchor="middle">Pages Worker (_worker.js)</text>
+  <text class="sub-w" x="720" y="196" text-anchor="middle">GET /api/status · shell fallback</text>
+  <rect class="box-soft" x="280" y="256" width="220" height="76" rx="12"/>
+  <text class="lbl" x="390" y="282" text-anchor="middle">Next.js 16.4.6</text>
+  <text class="sub" x="390" y="302" text-anchor="middle">App Router · React 19 · Tailwind v4</text>
+  <rect class="box" x="580" y="256" width="280" height="76" rx="12"/>
+  <text class="lbl" x="720" y="282" text-anchor="middle">localStorage — pe-store-v1</text>
+  <text class="sub" x="720" y="302" text-anchor="middle">seluruh data mode demo · per browser</text>
+  <rect class="box-soft" x="20" y="256" width="180" height="76" rx="12"/>
+  <text class="lbl" x="110" y="282" text-anchor="middle">Prisma 7 (skema)</text>
+  <text class="sub" x="110" y="302" text-anchor="middle">mode server — fase 2</text>
+  <line class="arr" x1="200" y1="82" x2="280" y2="82"/>
+  <line class="arr" x1="500" y1="70" x2="580" y2="70"/>
+  <line class="arr" x1="500" y1="95" x2="580" y2="175"/>
+  <line class="arr" x1="720" y1="226" x2="720" y2="256"/>
+  <line class="arr" x1="500" y1="294" x2="580" y2="294"/>
+  <line class="arr-dash" x1="200" y1="294" x2="280" y2="294"/>
+  <text class="sub" x="20" y="380">Garis putus-putus: Prisma belum terhubung ke runtime — skema adalah kontrak data untuk mode server.</text>
+  <text class="sub" x="20" y="400">Worker tidak butuh secret apa pun; mode demo tidak memakai environment variable.</text>
+</svg>
+<figcaption><h2><span class="num">1</span>Arsitektur runtime</h2>
+<p>Browser meminta halaman statis ke Pages; Worker hanya menangani <code>/api/status</code> dan shell fallback
+rute dinamis. Data hidup di localStorage — tanpa database di deployment ini.</p></figcaption>
+</figure>
+
+<figure>
+<svg viewBox="0 0 880 470" role="img" aria-label="Diagram model data Prospecting Engine">
+  <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1c1917"/></marker></defs>
+  <text class="tag" x="20" y="24">MODEL DATA — PRISMA (POSTGRES) · CERMINAN DI src/lib/types.ts</text>
+  <rect class="box-fill" x="20" y="44" width="250" height="150" rx="12"/>
+  <text class="lbl-w" x="145" y="74" text-anchor="middle">Prospect · prospects</text>
+  <text class="sub-w" x="40" y="98">nama · kategori · kota · alamat</text>
+  <text class="sub-w" x="40" y="116">waNumber · rating · reviewCount</text>
+  <text class="sub-w" x="40" y="134">mapsUrl · website (null = target)</text>
+  <text class="sub-w" x="40" y="152">source · stage (8) · nextAction</text>
+  <text class="sub-w" x="40" y="170">dueAt · dealValue (ribu Rp)</text>
+  <rect class="box" x="330" y="44" width="220" height="110" rx="12"/>
+  <text class="lbl" x="440" y="74" text-anchor="middle">Activity · activities</text>
+  <text class="sub" x="350" y="98">prospectId (FK, cascade)</text>
+  <text class="sub" x="350" y="116">type (6) · content</text>
+  <text class="sub" x="350" y="134">createdAt</text>
+  <rect class="box" x="610" y="44" width="250" height="110" rx="12"/>
+  <text class="lbl" x="735" y="74" text-anchor="middle">Demo · demos</text>
+  <text class="sub" x="630" y="98">prospectId · templateId · slug ★</text>
+  <text class="sub" x="630" y="116">data JSON · sentAt · viewedAt</text>
+  <text class="sub" x="630" y="134">createdAt</text>
+  <rect class="box" x="330" y="200" width="220" height="110" rx="12"/>
+  <text class="lbl" x="440" y="230" text-anchor="middle">Template · templates</text>
+  <text class="sub" x="350" y="254">nama · kategori</text>
+  <text class="sub" x="350" y="272">config JSON (palette,</text>
+  <text class="sub" x="350" y="290">heroCopy, sections)</text>
+  <rect class="box" x="610" y="200" width="250" height="110" rx="12"/>
+  <text class="lbl" x="735" y="230" text-anchor="middle">DiscoverJob · discover_jobs</text>
+  <text class="sub" x="630" y="254">keyword · kota · status</text>
+  <text class="sub" x="630" y="272">error · results JSON</text>
+  <text class="sub" x="630" y="290">createdAt · doneAt</text>
+  <rect class="box-soft" x="20" y="200" width="250" height="110" rx="12"/>
+  <text class="lbl" x="145" y="230" text-anchor="middle">Stage (8 nilai)</text>
+  <text class="sub" x="40" y="254">baru → demo_siap → follow_up</text>
+  <text class="sub" x="40" y="272">→ negosiasi → deal</text>
+  <text class="sub" x="40" y="290">ditolak · hilang_kontak · ditunda</text>
+  <line class="arr" x1="270" y1="90" x2="330" y2="90"/>
+  <line class="arr" x1="270" y1="130" x2="610" y2="100"/>
+  <line class="arr" x1="550" y1="255" x2="610" y2="255"/>
+  <text class="sub" x="20" y="360">Satu Prospect punya banyak Activity dan banyak Demo; satu Demo memakai satu Template.</text>
+  <text class="sub" x="20" y="380">Deal value disimpan dalam ribu rupiah (2500 = Rp2.500.000) — konsisten di skema, tipe, dan UI.</text>
+  <text class="sub" x="20" y="400">Mode demo memakai tipe dan seed yang sama persis dengan skema ini (src/lib/types.ts, src/lib/seed.ts).</text>
+  <text class="sub" x="20" y="420">★ slug unik — URL publik halaman demo /d/&lt;slug&gt;.</text>
+</svg>
+<figcaption><h2><span class="num">2</span>Model data</h2>
+<p>Lima model Prisma. Website null menandai target utama; stage menggerakkan pipeline dan nilai deal;
+demo menghubungkan prospek, template, dan halaman publiknya.</p></figcaption>
+</figure>
+
+<figure>
+<svg viewBox="0 0 880 500" role="img" aria-label="Diagram alur prospeksi Prospecting Engine">
+  <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1c1917"/></marker></defs>
+  <text class="tag" x="20" y="24">ALUR — DARI USAHA ASING JADI DEAL</text>
+  <rect class="box-accent" x="20" y="44" width="190" height="80" rx="12"/>
+  <text class="lbl-w" x="115" y="76" text-anchor="middle">1 · Discover</text>
+  <text class="sub-w" x="115" y="96" text-anchor="middle">kata kunci + kota</text>
+  <rect class="box" x="250" y="44" width="190" height="80" rx="12"/>
+  <text class="lbl" x="345" y="76" text-anchor="middle">2 · Import</text>
+  <text class="sub" x="345" y="96" text-anchor="middle">ke pipeline · stage Baru</text>
+  <rect class="box" x="480" y="44" width="190" height="80" rx="12"/>
+  <text class="lbl" x="575" y="76" text-anchor="middle">3 · Buat demo</text>
+  <text class="sub" x="575" y="96" text-anchor="middle">pilih template → /d/slug</text>
+  <rect class="box" x="710" y="44" width="150" height="80" rx="12"/>
+  <text class="lbl" x="785" y="76" text-anchor="middle">4 · Kirim WA</text>
+  <text class="sub" x="785" y="96" text-anchor="middle">link demo · sentAt</text>
+  <rect class="box-accent" x="710" y="180" width="150" height="80" rx="12"/>
+  <text class="lbl-w" x="785" y="206" text-anchor="middle">5 · Dibuka</text>
+  <text class="sub-w" x="785" y="226" text-anchor="middle">viewedAt tercatat</text>
+  <rect class="box" x="480" y="180" width="190" height="80" rx="12"/>
+  <text class="lbl" x="575" y="206" text-anchor="middle">6 · Follow-up</text>
+  <text class="sub" x="575" y="226" text-anchor="middle">telepon saat minat panas</text>
+  <rect class="box" x="250" y="180" width="190" height="80" rx="12"/>
+  <text class="lbl" x="345" y="206" text-anchor="middle">7 · Negosiasi</text>
+  <text class="sub" x="345" y="226" text-anchor="middle">paket &amp; harga</text>
+  <rect class="box-fill" x="20" y="180" width="190" height="80" rx="12"/>
+  <text class="lbl-w" x="115" y="206" text-anchor="middle">8 · Deal</text>
+  <text class="sub-w" x="115" y="226" text-anchor="middle">DP masuk · kerjakan</text>
+  <line class="arr" x1="210" y1="84" x2="250" y2="84"/>
+  <line class="arr" x1="440" y1="84" x2="480" y2="84"/>
+  <line class="arr" x1="670" y1="84" x2="710" y2="84"/>
+  <line class="arr" x1="785" y1="124" x2="785" y2="180"/>
+  <line class="arr" x1="710" y1="220" x2="670" y2="220"/>
+  <line class="arr" x1="480" y1="220" x2="440" y2="220"/>
+  <line class="arr" x1="250" y1="220" x2="210" y2="220"/>
+  <rect class="box-soft" x="20" y="300" width="840" height="120" rx="12"/>
+  <text class="lbl" x="40" y="330">Yang tercatat otomatis di linimasa</text>
+  <text class="sub" x="40" y="356">Setiap pindah stage → aktivitas perubahan_stage. Demo dibuat → catatan. Link dikirim → demo_dikirim.</text>
+  <text class="sub" x="40" y="378">Demo dibuka → demo_dilihat. Telepon / WA / catatan → aktivitas manual dari form.</text>
+  <text class="sub" x="40" y="400">Jalur keluar: ditolak · hilang_kontak · ditunda — tetap tercatat, tidak hilang dari riwayat.</text>
+  <text class="sub" x="20" y="460">Mode demo: langkah 1 memakai data contoh berlabel (tanpa Places API); langkah 4 memakai deep link wa.me + penandaan manual.</text>
+</svg>
+<figcaption><h2><span class="num">3</span>Alur prospeksi</h2>
+<p>Delapan langkah dari usaha asing jadi deal. Momen terpanasnya adalah langkah 5 — demo dibuka — karena
+di situlah follow-up dilakukan, dan sistem mencatatnya tanpa perlu ditanya.</p></figcaption>
+</figure>
+
+</main>
+<footer>
+  Prospecting Engine · docs/DIAGRAMS.html · dibuat mengikuti gaya diagram-design (HTML + SVG, bukan Mermaid) ·
+  sumber: prisma/schema.prisma, src/lib/store.tsx, worker/_worker.js
+</footer>
+</body>
+</html>
