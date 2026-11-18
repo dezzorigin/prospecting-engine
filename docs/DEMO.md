@@ -2,7 +2,7 @@
 
 ## Cara mencoba (2 menit)
 
-1. Buka https://prospecting-engine.pages.dev — landing tampil tanpa daftar.
+1. Buka https://prospectingengine.pages.dev — landing tampil tanpa daftar.
 2. Klik **Coba dashboard demo** → masuk `/app`.
 3. **Dashboard**: statistik pipeline terlihat (7 prospek aktif,
    Rp14.700.000). Kanban 8 kolom stage; tabel di bawah dengan cari &

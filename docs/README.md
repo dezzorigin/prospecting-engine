@@ -23,7 +23,7 @@ dengan `PRD.MD` di sini pada commit ini.
 
 ## Membaca dalam 5 menit
 
-1. Buka https://prospecting-engine.pages.dev — landing, lalu dashboard.
+1. Buka https://prospectingengine.pages.dev — landing, lalu dashboard.
 2. Baca [`DEMO.md`](./DEMO.md) untuk alur coba 2 menit.
 3. Baca [`ARCHITECTURE.md`](./ARCHITECTURE.md) untuk peta sistem.
 4. Lihat [`DIAGRAMS.html`](./DIAGRAMS.html) untuk tiga diagramnya.

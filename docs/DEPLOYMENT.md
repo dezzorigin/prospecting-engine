@@ -2,8 +2,8 @@
 
 ## 1. Target
 
-- **Proyek:** `prospecting-engine`
-- **Live:** https://prospecting-engine.pages.dev
+- **Proyek:** `prospectingengine`
+- **Live:** https://prospectingengine.pages.dev
 - **Platform:** Cloudflare Pages (direct upload via API, tanpa Git
   integration — deploy dilakukan manual dari `out/`).
 
@@ -22,8 +22,8 @@ Menggunakan `scripts` di `~/workspace/github-actions/cf_pages.py`
 (pola yang sama dipakai repo P1 #19–#24):
 
 ```bash
-python3 ~/workspace/github-actions/cf_pages.py create-project prospecting-engine
-python3 ~/workspace/github-actions/cf_pages.py deploy prospecting-engine out/
+python3 ~/workspace/github-actions/cf_pages.py create-project prospectingengine
+python3 ~/workspace/github-actions/cf_pages.py deploy prospectingengine out/
 ```
 
 Deploy mengunggah aset (hash blake3, hanya yang berubah) lalu membuat
@@ -33,18 +33,19 @@ deployment dengan `_worker.bundle` dari `out/_worker.js`.
 
 Nama `prospecting-engine` dicoba pertama; ketersediaan nama TIDAK bisa
 dicek via GET project (404 hanya berarti bukan milik akun kita) — nama
-adalah namespace global dan baru ketahuan saat create. Fallback urut:
-`prospectingengine` → `prospek-engine`. Nama final yang terpakai:
-**`prospecting-engine`** (bersih, tanpa sufiks).
+adalah namespace global dan baru ketahuan saat create. Hasil create:
+**HTTP 409 — dipakai akun Cloudflare lain**. Fallback pertama
+`prospectingengine` berhasil bersih, tanpa sufiks. Nama final yang
+terpakai: **`prospectingengine`** (https://prospectingengine.pages.dev).
 
 ## 4. Verifikasi live
 
 ```bash
-curl -s -o /dev/null -w "%{http_code}\n" https://prospecting-engine.pages.dev/
-curl -s https://prospecting-engine.pages.dev/ | grep -q "Cari usaha tanpa website" && echo "hero OK"
-curl -s https://prospecting-engine.pages.dev/app | grep -q "Kopi Ulee Kareng" && echo "dashboard seed OK"
-curl -s https://prospecting-engine.pages.dev/d/kopi-ulee-kareng | grep -q "Tempat Nongkrong Favorit" && echo "demo seed OK"
-curl -s https://prospecting-engine.pages.dev/api/status
+curl -s -o /dev/null -w "%{http_code}\n" https://prospectingengine.pages.dev/
+curl -s https://prospectingengine.pages.dev/ | grep -q "Cari usaha tanpa website" && echo "hero OK"
+curl -s https://prospectingengine.pages.dev/app | grep -q "Kopi Ulee Kareng" && echo "dashboard seed OK"
+curl -s https://prospectingengine.pages.dev/d/kopi-ulee-kareng | grep -q "Tempat Nongkrong Favorit" && echo "demo seed OK"
+curl -s https://prospectingengine.pages.dev/api/status
 # {"ok":true,"service":"prospecting-engine","mode":"demo",...}
 ```
 
@@ -56,7 +57,7 @@ buat demo → buka `/d/<slug>` (lihat `docs/DEMO.md`).
 Setelah live terverifikasi, pasang link di About repo:
 
 ```bash
-PATCH /repos/dezzorigin/prospecting-engine  { "homepage": "https://prospecting-engine.pages.dev" }
+PATCH /repos/dezzorigin/prospecting-engine  { "homepage": "https://prospectingengine.pages.dev" }
 ```
 
 Lalu verifikasi `GET /repos/dezzorigin/prospecting-engine` mengembalikan

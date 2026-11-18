@@ -35,7 +35,7 @@ function fakeAssets(files) {
 
 test("GET /api/status -> 200 JSON", async () => {
   const res = await handler.fetch(
-    new Request("https://prospecting-engine.pages.dev/api/status"),
+    new Request("https://prospectingengine.pages.dev/api/status"),
     { ASSETS: fakeAssets({}) }
   );
   assert.equal(res.status, 200);

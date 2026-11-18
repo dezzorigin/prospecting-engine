@@ -5,14 +5,14 @@ pembuatan website: temukan usaha lokal yang belum punya website, kelola pipeline
 penjualan, buat demo website personal atas nama mereka, dan pantau siapa yang
 membuka demonya.
 
-🌐 **Live:** https://prospecting-engine.pages.dev
+🌐 **Live:** https://prospectingengine.pages.dev
 📄 **Docs:** [`docs/README.md`](./docs/README.md) · **PRD:** [`PRD.md`](./PRD.md)
 
 ![Landing Prospecting Engine](./docs/screenshots/01-landing-hero.png)
 
 ## Coba langsung — tanpa daftar
 
-Buka https://prospecting-engine.pages.dev, klik **Coba dashboard demo**, dan
+Buka https://prospectingengine.pages.dev, klik **Coba dashboard demo**, dan
 dashboard langsung jalan di browser: pipeline Kanban 8 stage, 10 prospek contoh,
 3 template demo, dan 1 Discover job selesai. Tanpa akun, tanpa kunci API.
 Data tersimpan di localStorage — refresh halaman dan datamu tetap ada.

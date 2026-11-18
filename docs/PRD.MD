@@ -10,7 +10,7 @@
 | Penanggung Jawab | Nabil Aulia Dika (dezzorigin) |
 | Versi Dokumen | 2.0 |
 | Tanggal | 19 Nov 2026 |
-| Live | https://prospecting-engine.pages.dev |
+| Live | https://prospectingengine.pages.dev |
 
 ## 2. Latar Belakang
 

@@ -37,7 +37,7 @@ yang tidak pernah ada di kode — entri itu diganti catatan jujur ini.
 - Docs lengkap: PRD v2.0, SDD, arsitektur, skema, desain, keamanan,
   deployment, demo, roadmap, DIAGRAMS.html (HTML+SVG).
 - README standar repo top: screenshot asli + video demo 18 detik.
-- Deploy live Cloudflare Pages: https://prospecting-engine.pages.dev.
+- Deploy live Cloudflare Pages: https://prospectingengine.pages.dev.
 
 ### Changed
 - Next.js 16.3.8 → 16.4.6; `playwright` pindah ke devDependencies
