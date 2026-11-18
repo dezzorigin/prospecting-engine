@@ -41,6 +41,28 @@ const server = http.createServer((req, res) => {
   let path = normalize(decodeURIComponent(url.pathname)).replace(/^(\.\.[/\\])+/, "");
   if (path.endsWith("/")) path += "index.html";
   let file = join(ROOT, path);
+  // Payload flight ala worker/_worker.js (flightFor): navigasi
+  // client-side Next meminta `<rute>.txt` + `__next._tree.txt` /
+  // `__next.<…>.__PAGE__.txt`; untuk id/slug baru sajikan payload seed.
+  if (!existsSync(file) || statSync(file).isDirectory()) {
+    let flight = null;
+    let m = path.match(/^\/app\/prospek\/([^/]+)\.txt$/);
+    if (m) flight = "/app/prospek/p-kopi-ulee-kareng.txt";
+    m = path.match(/^\/app\/prospek\/([^/]+)\/__next\._(tree|full)\.txt$/);
+    if (m) flight = `/app/prospek/p-kopi-ulee-kareng/__next._${m[2]}.txt`;
+    m = path.match(/^\/app\/prospek\/([^/]+)\/__next\.app\.prospek\.\$d\$id\.__PAGE__\.txt$/);
+    if (m) flight = "/app/prospek/p-kopi-ulee-kareng/__next.app.prospek.$d$id.__PAGE__.txt";
+    m = path.match(/^\/d\/([^/]+)\.txt$/);
+    if (m) flight = "/d/kopi-ulee-kareng.txt";
+    m = path.match(/^\/d\/([^/]+)\/__next\._(tree|full)\.txt$/);
+    if (m) flight = `/d/kopi-ulee-kareng/__next._${m[2]}.txt`;
+    m = path.match(/^\/d\/([^/]+)\/__next\.d\.\$d\$slug\.__PAGE__\.txt$/);
+    if (m) flight = "/d/kopi-ulee-kareng/__next.d.$d$slug.__PAGE__.txt";
+    if (flight) {
+      const flightFile = join(ROOT, flight);
+      if (existsSync(flightFile) && statSync(flightFile).isFile()) file = flightFile;
+    }
+  }
   // Resolusi ala Pages: /workspace -> workspace.html
   if (!existsSync(file) || statSync(file).isDirectory()) {
     const html = `${file.replace(/\/$/, "")}.html`;
