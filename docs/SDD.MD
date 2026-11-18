@@ -136,3 +136,10 @@ data contoh di UI dan docs — bukan data Maps asli.
 - **Smoke CI**: serve `out/` + curl — hero, link GitHub, fitur,
   footer, seed di dashboard, demo seed, favicon, 404.
 - **Advisory sweep OSV**: produksi saja, gagal pada high/critical.
+- **Pelajaran CI (19 Nov 2026):** `LayoutProps` dari template
+  create-next-app bergantung pada `next-env.d.ts` yang DIGENERATE
+  (`next build`) — di checkout bersih CI file itu tidak ada dan
+  `tsc --noEmit` gagal `TS2304: Cannot find name 'LayoutProps'`,
+  padahal lokal lolos (file sudah ter-generate). Perbaikan: ketik
+  props layout eksplisit (`{ children: React.ReactNode }`). Jangan
+  pernah mengandalkan global dari `next-env.d.ts` di kode sumber.

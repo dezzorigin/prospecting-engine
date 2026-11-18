@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "Mesin prospeksi untuk jasa pembuatan website: temukan usaha lokal tanpa website, kelola pipeline penjualan, buat demo website personal, dan pantau siapa yang membukanya — semua dari satu dashboard.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-paper text-ink">
