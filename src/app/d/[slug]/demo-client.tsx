@@ -43,7 +43,11 @@ export default function DemoClient() {
 
   if (!slug || (!loaded && !demo)) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-paper">
+      // suppressHydrationWarning: shell prerender berisi konten demo
+      // seed; untuk slug non-seed, render pertama klien adalah "Memuat"
+      // — perbedaan ini disengaja (shell adalah stand-in) dan React
+      // menambalnya saat hydration. Tanpa ini, console penuh React #418.
+      <main suppressHydrationWarning className="flex min-h-screen items-center justify-center bg-paper">
         <p className="text-sm text-ink-soft">Memuat demo…</p>
       </main>
     );
@@ -51,7 +55,7 @@ export default function DemoClient() {
 
   if (!demo || !prospect || !template) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-paper px-4 text-center">
+      <main suppressHydrationWarning className="flex min-h-screen flex-col items-center justify-center bg-paper px-4 text-center">
         <p className="text-4xl" aria-hidden>⌖</p>
         <h1 className="mt-4 text-2xl font-bold text-ink">Demo tidak ditemukan</h1>
         <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
@@ -79,7 +83,7 @@ export default function DemoClient() {
   );
 
   return (
-    <main className="min-h-screen" style={{ background: p.bg, color: p.ink }}>
+    <main suppressHydrationWarning className="min-h-screen" style={{ background: p.bg, color: p.ink }}>
       {/* Nav mini */}
       <header className="mx-auto flex max-w-4xl items-center justify-between px-4 py-5 sm:px-6">
         <span className="text-lg font-bold tracking-tight">{prospect.nama}</span>

@@ -79,6 +79,14 @@ ada di HTML statis); setelah store termuat, sumber beralih ke state
 live. Penandaan "dilihat" baru berjalan setelah store termuat, supaya
 tidak tertimpa pemuatan localStorage.
 
+Catatan hydration: shell prerender berisi konten seed, sedangkan
+deep link id/slug NON-seed me-render "Memuat…" pada render pertama
+klien — perbedaan ini disengaja (shell adalah stand-in). Supaya console
+tidak penuh React error #418, elemen root kedua halaman dinamis memakai
+`suppressHydrationWarning` (pola resmi React untuk konten yang memang
+berbeda antara server dan klien). React tetap menambal DOM saat
+hydration; perilaku aplikasi tidak berubah.
+
 ## 5. Discover — simulasi mode demo
 
 Tanpa kunci Google Maps Places API, `buildDiscoverResults()` membangkitkan

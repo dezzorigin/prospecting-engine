@@ -44,11 +44,13 @@ export default function ProspectDetailClient() {
   );
 
   if (!id || (!loaded && !prospect)) {
-    return <p className="py-16 text-center text-sm text-ink-soft">Memuat prospek…</p>;
+    // suppressHydrationWarning: lihat penjelasan di d/[slug]/demo-client.tsx
+    // — shell prerender berisi konten prospek seed.
+    return <p suppressHydrationWarning className="py-16 text-center text-sm text-ink-soft">Memuat prospek…</p>;
   }
   if (!prospect) {
     return (
-      <div className="py-8">
+      <div suppressHydrationWarning className="py-8">
         <EmptyState
           title="Prospek tidak ditemukan"
           body="Mungkin sudah dihapus, atau link dibuka di browser lain (data demo hanya tersimpan di browser pembuatnya)."
@@ -86,7 +88,7 @@ export default function ProspectDetailClient() {
   const nextStageIdx = STAGES.indexOf(prospect.stage);
 
   return (
-    <div className="space-y-6">
+    <div suppressHydrationWarning className="space-y-6">
       <p className="text-sm">
         <Link href="/app" className="font-medium text-ink-soft hover:text-ink">
           ← Dashboard
