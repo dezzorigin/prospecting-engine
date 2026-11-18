@@ -79,13 +79,17 @@ ada di HTML statis); setelah store termuat, sumber beralih ke state
 live. Penandaan "dilihat" baru berjalan setelah store termuat, supaya
 tidak tertimpa pemuatan localStorage.
 
-Catatan hydration: shell prerender berisi konten seed, sedangkan
-deep link id/slug NON-seed me-render "Memuat…" pada render pertama
-klien — perbedaan ini disengaja (shell adalah stand-in). Supaya console
-tidak penuh React error #418, elemen root kedua halaman dinamis memakai
-`suppressHydrationWarning` (pola resmi React untuk konten yang memang
-berbeda antara server dan klien). React tetap menambal DOM saat
-hydration; perilaku aplikasi tidak berubah.
+Catatan hydration (React #418): shell prerender berisi konten seed,
+sedangkan deep link id/slug NON-seed butuh konten lain. Bila render
+pertama klien memakai id dari URL, ia menampilkan "Memuat…" — padahal
+HTML shell berisi konten seed → hydration mismatch. Solusinya: halaman
+dinamis menerima `shellSlug`/`shellId` (prop dari `page.tsx`, terbawa
+di payload RSC shell) dan memakai itu pada render pertama; HANYA
+setelah store termuat (`loaded`), id beralih ke id dari URL. Untuk
+id/slug seed, keduanya sama — tanpa kedipan. Pola ini ditemukan dari
+dua React #418 saat play-test live, setelah `suppressHydrationWarning`
+terbukti tidak cukup (ia hanya meredam perbedaan teks, bukan
+perbedaan struktur subtree).
 
 ## 5. Discover — simulasi mode demo
 

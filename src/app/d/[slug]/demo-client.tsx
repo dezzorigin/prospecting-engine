@@ -13,12 +13,25 @@ import { waLink } from "@/lib/types";
  *  Render awal memakai seed (sinkron) supaya halaman seed punya konten
  *  di HTML statis; begitu store termuat dari localStorage, sumber data
  *  beralih ke state live. Penandaan "dilihat" baru jalan setelah
- *  store termuat — supaya tidak tertimpa pemuatan localStorage. */
-export default function DemoClient() {
-  const slug = usePathSegment();
+ *  store termuat — supaya tidak tertimpa pemuatan localStorage.
+ *
+ *  Anti hydration mismatch (React #418): deep link slug NON-seed
+ *  disajikan Worker dari shell seed (kopi-ulee-kareng). Bila render
+ *  pertama klien memakai slug dari URL, ia menampilkan "Memuat…" —
+ *  padahal HTML shell berisi konten demo seed → mismatch. Karena itu
+ *  render pertama memakai `shellSlug` (slug file prerender yang
+ *  disajikan — terbawa di payload RSC shell), dan HANYA setelah store
+ *  termuat (`loaded`) slug beralih ke slug URL yang sebenarnya.
+ *  Untuk slug seed, keduanya sama — tanpa kedipan. */
+export default function DemoClient({ shellSlug }: { shellSlug: string }) {
+  const pathSlug = usePathSegment();
   const { state, loaded, markDemoViewed } = useStore();
   const seed = useMemo(() => seedState(), []);
   const marked = useRef(false);
+
+  // Sebelum store termuat: slug shell (cocok dengan HTML shell).
+  // Sesudahnya: slug dari URL (data yang benar).
+  const slug = loaded ? pathSlug : shellSlug;
 
   const source = loaded ? state : seed;
   const demo = useMemo(
@@ -43,11 +56,7 @@ export default function DemoClient() {
 
   if (!slug || (!loaded && !demo)) {
     return (
-      // suppressHydrationWarning: shell prerender berisi konten demo
-      // seed; untuk slug non-seed, render pertama klien adalah "Memuat"
-      // — perbedaan ini disengaja (shell adalah stand-in) dan React
-      // menambalnya saat hydration. Tanpa ini, console penuh React #418.
-      <main suppressHydrationWarning className="flex min-h-screen items-center justify-center bg-paper">
+      <main className="flex min-h-screen items-center justify-center bg-paper">
         <p className="text-sm text-ink-soft">Memuat demo…</p>
       </main>
     );
@@ -55,7 +64,7 @@ export default function DemoClient() {
 
   if (!demo || !prospect || !template) {
     return (
-      <main suppressHydrationWarning className="flex min-h-screen flex-col items-center justify-center bg-paper px-4 text-center">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-paper px-4 text-center">
         <p className="text-4xl" aria-hidden>⌖</p>
         <h1 className="mt-4 text-2xl font-bold text-ink">Demo tidak ditemukan</h1>
         <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
@@ -83,7 +92,7 @@ export default function DemoClient() {
   );
 
   return (
-    <main suppressHydrationWarning className="min-h-screen" style={{ background: p.bg, color: p.ink }}>
+    <main className="min-h-screen" style={{ background: p.bg, color: p.ink }}>
       {/* Nav mini */}
       <header className="mx-auto flex max-w-4xl items-center justify-between px-4 py-5 sm:px-6">
         <span className="text-lg font-bold tracking-tight">{prospect.nama}</span>

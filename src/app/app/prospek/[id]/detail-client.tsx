@@ -16,14 +16,19 @@ import {
 } from "@/lib/types";
 import { Card, EmptyState, StageBadge, Stars } from "@/components/ui";
 
-export default function ProspectDetailClient() {
-  const id = usePathSegment();
+export default function ProspectDetailClient({ shellId }: { shellId: string }) {
+  const pathId = usePathSegment();
   const router = useRouter();
   const { state, loaded, setStage, addActivity, createDemo, markDemoSent, deleteProspect } = useStore();
   const [templateId, setTemplateId] = useState("");
   const [activityType, setActivityType] = useState<ActivityType>("catatan");
   const [activityText, setActivityText] = useState("");
   const [demoMsg, setDemoMsg] = useState("");
+
+  // Sebelum store termuat: id shell (cocok dengan HTML shell).
+  // Sesudahnya: id dari URL (data yang benar). Lihat penjelasan di
+  // d/[slug]/demo-client.tsx — pola yang sama untuk anti React #418.
+  const id = loaded ? pathId : shellId;
 
   // Render awal memakai seed (sinkron) supaya halaman seed punya konten
   // di HTML statis; begitu store termuat, sumber beralih ke state live.
@@ -44,13 +49,11 @@ export default function ProspectDetailClient() {
   );
 
   if (!id || (!loaded && !prospect)) {
-    // suppressHydrationWarning: lihat penjelasan di d/[slug]/demo-client.tsx
-    // — shell prerender berisi konten prospek seed.
-    return <p suppressHydrationWarning className="py-16 text-center text-sm text-ink-soft">Memuat prospek…</p>;
+    return <p className="py-16 text-center text-sm text-ink-soft">Memuat prospek…</p>;
   }
   if (!prospect) {
     return (
-      <div suppressHydrationWarning className="py-8">
+      <div className="py-8">
         <EmptyState
           title="Prospek tidak ditemukan"
           body="Mungkin sudah dihapus, atau link dibuka di browser lain (data demo hanya tersimpan di browser pembuatnya)."
@@ -88,7 +91,7 @@ export default function ProspectDetailClient() {
   const nextStageIdx = STAGES.indexOf(prospect.stage);
 
   return (
-    <div suppressHydrationWarning className="space-y-6">
+    <div className="space-y-6">
       <p className="text-sm">
         <Link href="/app" className="font-medium text-ink-soft hover:text-ink">
           ← Dashboard

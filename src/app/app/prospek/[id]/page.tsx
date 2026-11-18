@@ -5,6 +5,8 @@ export function generateStaticParams() {
   return SEED_PROSPECTS.map((p) => ({ id: p.id }));
 }
 
-export default function ProspectDetailPage() {
-  return <ProspectDetailClient />;
+export default async function ProspectDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  // shellId = id file prerender ini (lihat detail-client).
+  return <ProspectDetailClient shellId={id} />;
 }
